@@ -6,7 +6,9 @@ from .layers import norm_layer_factory, act_layer_factory, PatchEmbed
 from .blocks import MixerBlock
 from ml_collections import ConfigDict
 from .block_layers import BLOCK_LAYERS
-
+from typing import * 
+import collections 
+from collections import *
 
 class MLPMixer(tf.keras.Model):
 
