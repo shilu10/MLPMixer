@@ -37,7 +37,7 @@ def port(model_type, model_savepath, include_top):
         model_type = model_type,
         image_size = data.get("image_size"),
         patch_size = data.get("patch_size"),
-        depths = data.get("depths"),
+        depth = data.get("depth"),
         projection_dim = data.get("projection_dim"),
         include_top = include_top,
         mlp_ratio = data.get("mlp_ratio")

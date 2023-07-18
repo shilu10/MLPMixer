@@ -2,5 +2,5 @@ model_type: mixer_l16_224.goog_in21k_ft_in1k
 image_size: 224 
 patch_size: 16 
 mlp_ratio: [0.5, 4.0]
-depths: 24 
+depth: 24 
 projection_dim: 1024
