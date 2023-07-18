@@ -12,7 +12,7 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
                   mlp_ratio=(0.5, 4.0),
                   init_values=None,
                   dropout_rate=0.0,
-                  drop_path_rate=0.0,
+                  droppath_rate=0.0,
                   include_top=True,
                   num_classes=1000
             ):
@@ -28,7 +28,7 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
     config.projection_dim = projection_dim
     config.input_shape = (config.image_size, config.image_size, 3)
     config.init_values = init_values
-    config.drop_path_rate = drop_path_rate
+    config.droppath_rate = droppath_rate
     config.dropout_rate = dropout_rate
     config.initializer_range = 0.02
     config.layer_norm_eps = 1e-5
