@@ -14,7 +14,8 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
                   dropout_rate=0.0,
                   droppath_rate=0.0,
                   include_top=True,
-                  num_classes=1000
+                  num_classes=1000,
+                  layernorm_eps=1e-5
             ):
 
     config = ConfigDict()
@@ -31,7 +32,7 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
     config.droppath_rate = droppath_rate
     config.dropout_rate = dropout_rate
     config.initializer_range = 0.02
-    config.layer_norm_eps = 1e-5
+    config.layernorm_eps = 1e-5
     config.num_classes = num_classes
     config.name = config.model_name
     config.global_pool = "avg"
