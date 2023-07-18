@@ -104,8 +104,6 @@ class MixerBlock(keras.Model):
         token_units = [tokens_dim, config.num_patches]
         channel_units = [channels_dim, config.projection_dim]
 
-        print(token_units, channel_units)
-
         self.mlp_tokens = FNN(config.dropout_rate, token_units)
         self.mlp_channels = FNN(config.dropout_rate, channel_units)
         self.norm1 = LayerNormalization(epsilon=config.layernorm_eps)

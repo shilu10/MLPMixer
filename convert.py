@@ -9,7 +9,7 @@ from .utils import modify_tf_block, get_tf_qkv
 from .mlp_mixer.mixer_model import MLPMixer
 from .base_config import get_baseconfig
 import yaml
-
+from .mlp_mixer.mixer_model import FNN
 
 def port(model_type, model_savepath, include_top):
 
