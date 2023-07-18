@@ -1,12 +1,11 @@
 import sys, os, shutil
-sys.path.append("MLPMixer1/mlp_mixers/layers/")
 
 import tensorflow as tf 
 from tensorflow import keras 
 from tensorflow.keras import * 
 from tensorflow.keras.layers import * 
-from layers import norm_layer_factory, act_layer_factory, DropPath
-from utils import MLP_LAYERS
+from ..layers import norm_layer_factory, act_layer_factory, DropPath
+from ..mlp_layers import MLP_LAYERS
 from ml_collections import ConfigDict
 
 
