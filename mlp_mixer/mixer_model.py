@@ -1,4 +1,4 @@
-from utils import get_initializer
+from .utils import get_initializer
 from tensorflow import keras 
 import tensorflow as tf 
 import numpy as np 
@@ -7,6 +7,8 @@ from tensorflow.keras.layers import *
 from ml_collections import ConfigDict 
 from timm.layers import to_2tuple
 from typing import *
+from collections import * 
+import collections
 
 
 class PatchEmbed(keras.layers.Layer):
