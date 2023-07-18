@@ -1,0 +1,54 @@
+import tensorflow as tf 
+import tensorflow.keras as keras 
+from utils import get_initializer
+from ml_collections import ConfigDict
+import collections 
+from collections import *
+
+
+class PatchEmbed(keras.layers.Layer):
+    """
+    This class turns `pixel_values` of shape `(batch_size, num_channels, height, width)` into the initial
+    `hidden_states` (patch embeddings) of shape `(batch_size, seq_length, hidden_size)` to be consumed by a
+    Transformer.
+    """
+    def __init__(self, config: ConfigDict, **kwargs):
+        super(PatchEmbed, self).__init__(**kwargs)
+        image_size = config.image_size
+        patch_size = config.patch_size
+        projection_dim = config.projection_dim
+        n_channels = config.n_channels
+
+        image_size = image_size if isinstance(image_size, collections.abc.Iterable) else (image_size, image_size)
+        patch_size = patch_size if isinstance(patch_size, collections.abc.Iterable) else (patch_size, patch_size)
+        num_patches = ((image_size[0] // patch_size[0]) * (image_size[1] // patch_size[1]))
+
+        # calculation of num of patches
+        self.num_patches = num_patches
+        self.config = config
+        self.image_size = image_size
+        self.n_channels = n_channels
+        self.projection_dim = projection_dim
+        self.patch_size = patch_size
+
+        # patch generator
+        self.projection = tf.keras.layers.Conv2D(
+            kernel_size=patch_size,
+            strides=patch_size,
+            data_format="channels_last",
+            filters=projection_dim,
+            padding="valid",
+            use_bias=True,
+            kernel_initializer=get_initializer(self.config.initializer_range),
+            bias_initializer="zeros",
+            name="projection"
+        )
+
+    def call(self, x: tf.Tensor, training: bool = False) -> tf.Tensor:
+        shape = tf.shape(x)
+        batch_size, height, width, n_channel = shape[0], shape[1], shape[2], shape[3]
+
+        projection = self.projection(x)
+        embeddings = tf.reshape(tensor=projection, shape=(batch_size, self.num_patches, -1))
+
+        return embeddings
