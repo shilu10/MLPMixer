@@ -1,5 +1,5 @@
 import sys, os, shutil
-sys.path.append("..")
+sys.path.append("MLPMixer1/mlp_mixers/layers/")
 
 import tensorflow as tf 
 from tensorflow import keras 
