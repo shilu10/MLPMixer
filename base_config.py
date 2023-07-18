@@ -35,10 +35,10 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
     config.num_classes = num_classes
     config.name = config.model_name
     config.global_pool = "avg"
+    config.mlp_ratio = mlp_ratio
 
     config.n_channels = 3
     config.model_type = config.model_name
-    config.mlp_units = [ 4 * config.projection_dim, config.projection_dim]
     config.include_top = True
 
     return config.lock() 
