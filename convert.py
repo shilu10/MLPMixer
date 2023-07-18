@@ -29,7 +29,7 @@ def port(model_type, model_savepath, include_top):
     print("Instantiating TF model...")
     model_cls = MLPMixer
 
-    config_file_path = f"configs/{model_type.replace(".", "_")}.yaml"
+    config_file_path = f'configs/{model_type.replace(".", "_")}.yaml'
     with open(config_file_path, "r") as f:
         data = yaml.safe_load(f)
 
