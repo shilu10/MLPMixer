@@ -17,7 +17,7 @@ def get_initializer(initializer_range: float = 0.02) -> tf.keras.initializers.Tr
     return tf.keras.initializers.TruncatedNormal(stddev=initializer_range)
 
 
-def act_layer_factory(act_layer: str):
+def get_act_layer(act_layer: str):
     """Returns a function that creates the required activation layer."""
     if act_layer in {"linear", "swish", "relu", "gelu", "sigmoid"}:
         return lambda **kwargs: tf.keras.layers.Activation(act_layer, **kwargs)
@@ -27,7 +27,7 @@ def act_layer_factory(act_layer: str):
         raise ValueError(f"Unknown activation: {act_layer}.")
 
 
-def norm_layer_factory(norm_layer: str):
+def get_norm_layer(norm_layer: str):
     """Returns a function that creates a normalization layer"""
     if norm_layer == "":
         return lambda **kwargs: tf.keras.layers.Activation("linear", **kwargs)
