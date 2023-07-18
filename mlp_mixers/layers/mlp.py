@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow.keras as keras 
 from tensorflow.keras.layers import * 
 from tensorflow.keras import * 
+from .factory import act_layer_factory, norm_layer_factory
 
 
 class MLP(tf.keras.layers.Layer):
