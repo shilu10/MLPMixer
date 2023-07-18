@@ -6,14 +6,14 @@ from tensorflow.keras.layers import *
 import os, sys, shutil, glob 
 import timm 
 from .utils import modify_tf_block, get_tf_qkv
-from .mlp_mixer.main import MLPMixer
+from .mlp_mixers.main import MLPMixer
 from .base_config import get_baseconfig
 import yaml
 
 
-def port(model_type: str, 
-         model_savepath: str, 
-         include_top: bool
+def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k", 
+         model_savepath: str = 'models/', 
+         include_top: bool = True
     ):
 
     print("Instantiating PyTorch model...")
