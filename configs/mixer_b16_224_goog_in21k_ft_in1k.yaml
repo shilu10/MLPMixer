@@ -4,3 +4,5 @@ patch_size: 16
 mlp_ratio: [0.5, 4.0]
 depth: 12 
 projection_dim: 768
+block_layer: mixer_block 
+mlp_layer: mlp
