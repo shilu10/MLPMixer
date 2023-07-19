@@ -1,0 +1,10 @@
+model_type: gmlp_s16_224
+image_size: 224 
+patch_size: 16 
+mlp_ratio: [6.0, 6.0]
+depth: 30
+projection_dim: 512
+block_layer: spatial_gating_block 
+mlp_layer: gated_mlp
+act_layer: gelu
+norm_layer: layer_norm
