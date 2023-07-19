@@ -15,7 +15,7 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
          model_savepath: str = 'models/', 
          include_top: bool = True
     ):
-    
+
     print("Instantiating PyTorch model...")
     pt_model = timm.create_model(
         model_name=model_type, 
@@ -95,7 +95,7 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
                                         )
 
     if "gmlp" in model_type:
-        tf_model = convert_mlpmixer_layer(tf_model=tf_model, 
+        tf_model = convert_gatedmlp_layer(tf_model=tf_model, 
                                           pt_model_dict=pt_model_dict, 
                                           config=config
                                         )
