@@ -45,5 +45,6 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
     config.mlp_layer = mlp_layer
     config.act_layer = act_layer
     config.norm_layer = norm_layer
+    config.init_values = 1e-5
 
     return config.lock() 
