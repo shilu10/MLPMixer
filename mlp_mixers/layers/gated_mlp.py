@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras 
 from tensorflow.keras import * 
 from tensorflow.keras.layers import * 
-
+from .factory import act_layer_factory, norm_layer_factory
 
 class SpatialGatingUnit(tf.keras.layers.Layer):
     """
