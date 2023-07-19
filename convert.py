@@ -66,8 +66,8 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
     print("Beginning parameter porting process...")
 
     # head Norm layer.
-    tf_model.layers[-3] = modify_tf_block(
-        tf_model.layers[-3],
+    tf_model.layers[-2] = modify_tf_block(
+        tf_model.layers[-2],
         pt_model_dict["norm.weight"],
         pt_model_dict["norm.bias"]
     )
