@@ -4,3 +4,4 @@ from .drop_path import DropPath
 from .patch_embed import PatchEmbed
 from .mlp import MLP
 from .glu_mlp import GluMLP
+from .gated_mlp import GatedMLP
