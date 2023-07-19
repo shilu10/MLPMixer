@@ -6,3 +6,5 @@ depth: 24
 projection_dim: 1024
 block_layer: mixer_block 
 mlp_layer: mlp
+act_layer: gelu
+norm_layer: layer_norm

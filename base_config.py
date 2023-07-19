@@ -16,6 +16,8 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
                   num_classes=1000,
                   block_layer="mixer_block",
                   mlp_layer="mlp",
+                  act_layer = "gelu",
+                  norm_layer="layer_norm"
             ):
 
     config = ConfigDict()
@@ -41,7 +43,7 @@ def get_baseconfig(model_type="mixer_l16_224.goog_in21k_ft_in1k",
 
     config.block_layer = block_layer
     config.mlp_layer = mlp_layer
-    config.act_layer = 'gelu'
-    config.norm_layer = "layer_norm"
+    config.act_layer = act_layer
+    config.norm_layer = norm_layer
 
     return config.lock() 
