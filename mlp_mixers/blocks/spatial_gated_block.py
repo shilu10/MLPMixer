@@ -4,7 +4,7 @@ from tensorflow.keras import *
 from tensorflow.keras.layers import * 
 from ..mlp_layers import MLP_LAYERS
 from ..layers import norm_layer_factory, act_layer_factory, DropPath
-
+from ml_collections import ConfigDict
 
 class SpatialGatingBlock(tf.keras.layers.Layer):
     """
