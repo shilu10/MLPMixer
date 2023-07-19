@@ -15,7 +15,7 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
          model_savepath: str = 'models/', 
          include_top: bool = True
     ):
-
+    
     print("Instantiating PyTorch model...")
     pt_model = timm.create_model(
         model_name=model_type, 
@@ -88,6 +88,28 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
         )
 
     # mixer layers:
+    if "mixer" in model_type:
+        tf_model = convert_mlpmixer_layer(tf_model=tf_model, 
+                                          pt_model_dict=pt_model_dict, 
+                                          config=config
+                                        )
+
+    if "gmlp" in model_type:
+        tf_model = convert_mlpmixer_layer(tf_model=tf_model, 
+                                          pt_model_dict=pt_model_dict, 
+                                          config=config
+                                        )
+
+    print("Porting successful, serializing TensorFlow model...")
+
+    save_path = os.path.join(model_savepath, model_type)
+    save_path = f"{save_path}_fe" if not include_top else save_path
+    tf_model.save(save_path)
+    print(f"TensorFlow model serialized at: {save_path}...")
+
+
+def convert_mlpmixer_layer(tf_model, pt_model_dict, config):
+
     for indx, layer in enumerate(tf_model.layers[1: config.depth+1]):
         pt_block_name = f"blocks.{indx}"
 
@@ -128,12 +150,48 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
                 layer.norm2,
                 pt_model_dict[f"{pt_block_name}.norm2.weight"],
                 pt_model_dict[f"{pt_block_name}.norm2.bias"]
+            ) 
+    
+    return tf_model
+
+
+def convert_gatedmlp_layer(tf_model, pt_model_dict, config):
+
+    for indx, layer in enumerate(tf_model.layers[1: config.depth+1]):
+        pt_block_name = f"blocks.{indx}"
+
+        # mlp_channels
+        layer.mlp_channels.fc1 = modify_tf_block(
+                layer.mlp_channels.fc1,
+                pt_model_dict[f"{pt_block_name}.mlp_channels.fc1.weight"],
+                pt_model_dict[f"{pt_block_name}.mlp_channels.fc1.bias"]
             )
 
+        layer.mlp_channels.fc2 = modify_tf_block(
+                layer.mlp_channels.fc2,
+                pt_model_dict[f"{pt_block_name}.mlp_channels.fc2.weight"],
+                pt_model_dict[f"{pt_block_name}.mlp_channels.fc2.bias"]
+            )
 
-    print("Porting successful, serializing TensorFlow model...")
+        # mlp_channels -. gate
+        layer.mlp_channels.gate.proj = modify_tf_block(
+                layer.mlp_channels.gate.proj,
+                pt_model_dict[f"{pt_block_name}.mlp_channels.gate.proj.weight"],
+                pt_model_dict[f"{pt_block_name}.mlp_channels.gate.proj.bias"]
+            )
+        
+        # gate norm
+        layer.mlp_channels.gate.norm = modify_tf_block(
+                layer.mlp_channels.gate.norm,
+                pt_model_dict[f"{pt_block_name}.mlp_channels.gate.norm.weight"],
+                pt_model_dict[f"{pt_block_name}.mlp_channels.gate.norm.bias"]
+            )
 
-    save_path = os.path.join(model_savepath, model_type)
-    save_path = f"{save_path}_fe" if not include_top else save_path
-    tf_model.save(save_path)
-    print(f"TensorFlow model serialized at: {save_path}...")
+        # normalization (main)
+        layer.norm = modify_tf_block(
+                layer.norm,
+                pt_model_dict[f"{pt_block_name}.norm.weight"],
+                pt_model_dict[f"{pt_block_name}.norm.bias"]
+            ) 
+    
+    return tf_model
