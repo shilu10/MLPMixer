@@ -42,7 +42,9 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
         include_top = include_top,
         mlp_ratio = data.get("mlp_ratio"),
         mlp_layer = data.get("mlp_layer"),
-        block_layer = data.get("block_layer")
+        block_layer = data.get("block_layer"),
+        act_layer = data.get('act_layer'),
+        norm_layer = data.get('norm_layer')
     )
 
     tf_model = model_cls(config)

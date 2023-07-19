@@ -1,0 +1,10 @@
+model_type: gmixer_12_224
+image_size: 224 
+patch_size: 16 
+mlp_ratio: [1.0, 4.0]
+depth: 24
+projection_dim: 384
+block_layer: mixer_block 
+mlp_layer: glu_mlp
+act_layer: swish
+norm_layer: layer_norm
