@@ -1,5 +1,6 @@
-from .layers import MLP
+from .layers import MLP, GluMLP
 
 MLP_LAYERS = {
-    "mlp": MLP
+    "mlp": MLP,
+    'glu_mlp': GluMLP
 }
