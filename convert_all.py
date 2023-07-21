@@ -8,7 +8,7 @@ from .convert import port
 
 all_model_types = [
     "mixer_l16_224.goog_in21k_ft_in1k",
-    "mixer_b16_224_goog_in21k_ft_in1k",
+    "mixer_b16_224.goog_in21k_ft_in1k",
     "gmixer_12_224",
     "gmixer_24_224",
     "gmlp_b16_224",
@@ -39,5 +39,5 @@ def port_all(mtype="classifier", model_savepath="models/"):
                 )
     
     except Exception as err:
-        return err
+        print("")
                 
