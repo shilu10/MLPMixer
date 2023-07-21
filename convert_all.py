@@ -19,25 +19,31 @@ all_model_types = [
 ]
 
 def port_all(mtype="classifier", model_savepath="models/"):
-    try: 
-        if mtype == "classifier":
-            for model_type in all_model_types:
+    if mtype == "classifier":
+        for model_type in all_model_types:
+            try: 
                 print("Processing model type: ", model_type)
                 port(
                     model_type = model_type,
                     model_savepath = model_savepath,
                     include_top = True
                 )
+
+            except Exception as err:
+                print(err, "some models does'nt have a pretrained weights in pytorch.")
         
-        elif mtype == "feature_extractor":
-            for model_type in all_model_types:
+    elif mtype == "feature_extractor":
+        for model_type in all_model_types:
+            try:
                 print("Processing model type: ", model_type)
                 port(
                     model_type = model_type,
                     model_savepath = ".",
                     include_top = False
                 )
+            
+            except Exception as err:
+                print(err, "some models does'nt have a pretrained weights in pytorch.")
     
-    except Exception as err:
-        print(err)
+    
                 
