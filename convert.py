@@ -22,14 +22,14 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
         num_classes=1000, 
         pretrained=True
     )
-
-
+    
     pt_model.eval()
 
     print("Instantiating TF model...")
     model_cls = MLPMixer
 
-    config_file_path = f'configs/{model_type.replace(".", "_")}.yaml'
+    # replace(".", "_")
+    config_file_path = f'configs/{model_type}.yaml'
     with open(config_file_path, "r") as f:
         data = yaml.safe_load(f)
 

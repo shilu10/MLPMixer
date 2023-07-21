@@ -15,7 +15,12 @@ all_model_types = [
     "gmlp_s16_224",
     "gmlp_ti16_224",
     "resmlp_12_224",
-    "resmlp_24_224"
+    "resmlp_24_224",
+    "resmlp_36_224",
+    "resmlp_12_224.fb_distilled_in1k",
+    "resmlp_24_224.fb_distilled_in1k",
+    "resmlp_36_224.fb_distilled_in1k",
+    "resmlp_big_24_224.fb_distilled_in1k"
 ]
 
 def port_all(mtype="classifier", model_savepath="models/"):
