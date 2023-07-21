@@ -66,11 +66,16 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
     print("Beginning parameter porting process...")
 
     # head Norm layer.
-    tf_model.layers[-2] = modify_tf_block(
-        tf_model.layers[-2],
-        pt_model_dict["norm.weight"],
-        pt_model_dict["norm.bias"]
-    )
+    if "res" in model_type:
+        tf_model.layers[-2].alpha = tf.Variable(np.ravel(pt_model_dict["norm.alpha"]))
+        tf_model.layers[-2].beta = tf.Variable(np.ravel(pt_model_dict[f"norm.beta"]))
+
+    else:
+        tf_model.layers[-2] = modify_tf_block(
+            tf_model.layers[-2],
+            pt_model_dict["norm.weight"],
+            pt_model_dict["norm.bias"]
+        )
 
     # patch embedding.
     tf_model.layers[0].projection = modify_tf_block(
@@ -94,8 +99,14 @@ def port(model_type: str = "mixer_b16_224.goog_in21k_ft_in1k",
                                           config=config
                                         )
 
-    if "gmlp" in model_type:
+    elif "gmlp" in model_type:
         tf_model = convert_gatedmlp_layer(tf_model=tf_model, 
+                                          pt_model_dict=pt_model_dict, 
+                                          config=config
+                                        )
+
+    elif "resmlp" in model_type:
+        tf_model = convert_resmlp_layer(tf_model=tf_model, 
                                           pt_model_dict=pt_model_dict, 
                                           config=config
                                         )
@@ -195,3 +206,38 @@ def convert_gatedmlp_layer(tf_model, pt_model_dict, config):
             ) 
     
     return tf_model
+
+
+def convert_resmlp_layer(tf_model, pt_model_dict, config):
+    for indx, layer in enumerate(tf_model.layers[1: config.depth+1]):
+    pt_block_name = f"blocks.{indx}"
+
+    # mlp_channels
+    layer.mlp_channels.fc1 = modify_tf_block(
+            layer.mlp_channels.fc1,
+            pt_model_dict[f"{pt_block_name}.mlp_channels.fc1.weight"],
+            pt_model_dict[f"{pt_block_name}.mlp_channels.fc1.bias"]
+        )
+
+    layer.mlp_channels.fc2 = modify_tf_block(
+            layer.mlp_channels.fc2,
+            pt_model_dict[f"{pt_block_name}.mlp_channels.fc2.weight"],
+            pt_model_dict[f"{pt_block_name}.mlp_channels.fc2.bias"]
+        )
+
+    # linear_tokens
+    layer.linear_tokens.kernel.assign(tf.Variable(pt_model_dict[f"{pt_block_name}.linear_tokens.weight"].transpose()))
+    layer.linear_tokens.bias.assign(tf.Variable(pt_model_dict[f"{pt_block_name}.linear_tokens.bias"]))
+
+    # affine norm
+    layer.norm1.alpha = tf.Variable(np.ravel(pt_model_dict[f"{pt_block_name}.norm1.alpha"]))
+    layer.norm1.beta = tf.Variable(np.ravel(pt_model_dict[f"{pt_block_name}.norm1.beta"]))
+
+    layer.norm2.alpha = tf.Variable(np.ravel(pt_model_dict[f"{pt_block_name}.norm2.alpha"]))
+    layer.norm2.beta = tf.Variable(np.ravel(pt_model_dict[f"{pt_block_name}.norm2.beta"]))
+
+
+    # ls weights(layerscale)
+    layer.ls1.assign(tf.Variable(pt_model_dict[f"{pt_block_name}.ls1"]))
+
+    layer.ls2.assign(tf.Variable(pt_model_dict[f"{pt_block_name}.ls2"]))
