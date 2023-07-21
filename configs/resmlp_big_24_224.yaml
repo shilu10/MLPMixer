@@ -1,9 +1,9 @@
-model_type: resmlp_24_224
+model_type: resmlp_big_24_224
 image_size: 224 
-patch_size: 16 
+patch_size: 8
 mlp_ratio: [4.0, 4.0]
 depth: 24
-projection_dim: 384
+projection_dim: 768
 block_layer: res_block 
 mlp_layer: mlp
 act_layer: gelu

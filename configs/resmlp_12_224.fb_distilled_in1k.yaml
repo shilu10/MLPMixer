@@ -1,8 +1,8 @@
-model_type: resmlp_24_224
+model_type: resmlp_12_224.fb_distilled_in1k
 image_size: 224 
 patch_size: 16 
 mlp_ratio: [4.0, 4.0]
-depth: 24
+depth: 12
 projection_dim: 384
 block_layer: res_block 
 mlp_layer: mlp
