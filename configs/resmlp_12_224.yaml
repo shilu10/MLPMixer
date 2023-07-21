@@ -1,0 +1,10 @@
+model_type: resmlp_12_224
+image_size: 224 
+patch_size: 16 
+mlp_ratio: [4.0, 4.0]
+depth: 12
+projection_dim: 384
+block_layer: res_block 
+mlp_layer: mlp
+act_layer: gelu
+norm_layer: affine
