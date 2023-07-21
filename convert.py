@@ -241,3 +241,5 @@ def convert_resmlp_layer(tf_model, pt_model_dict, config):
         layer.ls1.assign(tf.Variable(pt_model_dict[f"{pt_block_name}.ls1"]))
 
         layer.ls2.assign(tf.Variable(pt_model_dict[f"{pt_block_name}.ls2"]))
+
+    return tf_model
