@@ -39,5 +39,5 @@ def port_all(mtype="classifier", model_savepath="models/"):
                 )
     
     except Exception as err:
-        print("")
+        print(err)
                 
